@@ -52,6 +52,12 @@ for r in "${repos[@]}"; do
 done
 
 for r in "${repos[@]}"; do
+  # Code Go sinh từ proto không được commit: gen trong gm-core trước make mod
+  # của service, vì service import nó qua replace ../gm-core.
+  if grep -q '^gen-proto:' "$task_dir/$r/Makefile" 2>/dev/null; then
+    echo "$r: make gen-proto"
+    make -C "$task_dir/$r" --no-print-directory gen-proto
+  fi
   if grep -q '^mod:' "$task_dir/$r/Makefile" 2>/dev/null; then
     echo "$r: make mod"
     make -C "$task_dir/$r" --no-print-directory mod

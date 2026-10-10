@@ -50,8 +50,8 @@ Mỗi service một thư mục cho mỗi version, chia thành `dto` và `service
 gm-core/proto/product/v1/dto/product.dto.proto          package product.v1.dto       messages
 gm-core/proto/product/v1/service/product.service.proto  package product.v1.service   service ProductService
 gm-core/third_party/                                    vendored google/api + buf/validate, never generated
-gm-core/application/product/v1/dto/                     generated Go, imported as productdtov1
-gm-core/application/product/v1/service/                 generated Go, imported as productsvcv1
+gm-core/application/product/v1/dto/                     generated Go, imported as productdtov1 (gitignored)
+gm-core/application/product/v1/service/                 generated Go, imported as productsvcv1 (gitignored)
 ```
 
 `dto` và `service` là hai proto package tách rời một cách có chủ đích: hai file trong cùng một proto package buộc phải chung `go_package`, nên không cách nào khác cho ra hai Go package thật sự. Caller chỉ dựng message thì import `dto` mà không kéo theo gRPC runtime.
@@ -116,11 +116,11 @@ Mọi bước dưới đây diễn ra trong `gm-core`, bất kể bạn bắt đ
 
 1. Sửa `gm-core/proto/<service>/v<n>/dto/<service>.dto.proto` (message) hoặc `service/<service>.service.proto` (rpc).
 2. `make gen-proto` trong `gm-core`, chạy trên host. Không nơi nào khác có target này.
-3. Commit phần `gm-core/application/` vừa regenerate cùng với thay đổi `.proto` — code sinh ra được commit vào repo.
+3. Chỉ commit thay đổi `.proto`. Code sinh ra (`*.pb.go`, `*.pb.gw.go` trong `application/`) bị gitignore, nên checkout gm-core nào cũng phải `make gen-proto` trước khi service `make mod` — `scripts/task-start.sh` làm sẵn cho worktree.
 4. `make mod` trong mọi service tiêu thụ để bản vendor bắt kịp.
 5. Cập nhật handler trong `internal/api/` của service đó, và lời gọi `Register<Service>ServiceHandler` trong `gm-gateway/cmd/server/main.go` nếu route có thay đổi.
 
-`gm-core` generate bằng `buf`, không phải protoc, và là repo duy nhất generate bất cứ thứ gì. Dev image của service không mang công cụ codegen nào, nên hãy chạy `make gen-proto` từ shell host trong `gm-core`, rồi `make mod` trong từng service tiêu thụ. Xem `gm-core/NOTES.md` để biết những gì còn đang hoãn, trong đó có bước CI kiểm tra rằng `application/` đã commit thực sự khớp với proto.
+`gm-core` generate bằng `buf`, không phải protoc, và là repo duy nhất generate bất cứ thứ gì. Dev image của service không mang công cụ codegen nào, nên hãy chạy `make gen-proto` từ shell host trong `gm-core`, rồi `make mod` trong từng service tiêu thụ. Xem `gm-core/NOTES.md` để biết những gì còn đang hoãn.
 
 ## Quy trình database
 
