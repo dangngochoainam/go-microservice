@@ -1,0 +1,7 @@
+worktrees/
+plans/
+reports/
+
+# Mỗi repo con là một git repo riêng, có remote riêng.
+gopkg/
+gm-*/
