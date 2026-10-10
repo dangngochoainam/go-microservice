@@ -14,7 +14,7 @@ Mọi repo Go có các target sau, chạy trong `worktrees/<task>/<repo>/`:
 
 ## Khi nào chạy
 
-- Xong mỗi task trong plan: `make verify` ở các repo task đó đụng tới, PASS rồi mới tick và commit.
+- Xong mỗi task trong plan: `make verify` ở các repo task đó đụng tới, PASS rồi mới tick; commit chỉ khi người dùng cho phép (xem `git.md`).
 - Trước khi báo xong với người dùng: `scripts/verify.sh <task>`.
 - Test (unit, integration, e2e) không nằm trong verify: chạy ở bước sau, trong một session khác, theo skill `writing-tests`.
 

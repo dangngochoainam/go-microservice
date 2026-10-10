@@ -75,7 +75,7 @@ Chạy các lệnh này từ bên trong repo tương ứng.
 ```bash
 # mọi repo Go (gopkg, gm-core, gm-gateway, gm-product)
 make fmt          # sửa format: gofmt + goimports
-make lint         # golangci-lint v2.14.0, config ở .golangci.yml — chỉ chặn lỗi mới so với origin/master
+make lint         # golangci-lint v2.14.0, config ở .golangci.yml — lint toàn repo
 make build        # go build ./...
 make verify       # lint + build, không chạy test
 make test         # go test ./... — unit test, không tag
@@ -97,7 +97,7 @@ make gen-proto    # buf generate proto -> application/<service>/v<n>/{dto,servic
 make mod          # go mod tidy
 ```
 
-Lỗi lint có sẵn từ trước khi thêm lint được ghi trong `NOTES.md` của từng repo. golangci-lint cần go >= 1.26 nên chạy qua `go run ...@v2.14.0`; `GOTOOLCHAIN=auto` tự tải go1.26 chỉ để build linter, các module vẫn giữ `go 1.24.0`.
+golangci-lint cần go >= 1.26 nên chạy qua `go run ...@v2.14.0`; `GOTOOLCHAIN=auto` tự tải go1.26 chỉ để build linter, các module vẫn giữ `go 1.24.0`.
 
 `make start` cần một Docker network external tên `docker_stack` có PostgreSQL truy cập được qua host `postgres:5432`. Tạo bằng `docker network create docker_stack` nếu chưa có.
 
