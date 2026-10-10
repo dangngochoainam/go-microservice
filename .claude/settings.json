@@ -11,6 +11,10 @@
           },
           {
             "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-master-push.sh"
+          },
+          {
+            "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-env-read.sh"
           }
         ]
@@ -67,6 +71,11 @@
       "Bash(git push -f*)",
       "Bash(git push * --force*)",
       "Bash(git push * -f*)",
+      "Bash(git push * master*)",
+      "Bash(git push * main*)",
+      "Bash(git -C * push * master*)",
+      "Bash(git -C * push * main*)",
+      "Bash(gh pr merge*)",
       "Read(**/.env)",
       "Read(**/.env.local)",
       "Read(**/.env.*.local)"
