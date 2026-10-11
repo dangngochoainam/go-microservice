@@ -9,7 +9,7 @@ File này hướng dẫn Claude Code (claude.ai/code) khi làm việc với code
 | Thư mục | Module / vai trò | Trạng thái |
 |---|---|---|
 | `gopkg/` | `github.com/dangngochoainam/gopkg` — thư viện helper dùng chung cho mọi service | đã có code, đã có commit |
-| `gm-core/` | `github.com/dangngochoainam/gm-core` — contract protobuf dùng chung: mọi file `.proto` và package Go sinh ra cho mọi service | đã có code (library, không phải service) |
+| `gm-core/` | `github.com/dangngochoainam/gm-core` — contract protobuf dùng chung: mọi file `.proto` và package Go sinh ra cho mọi service, cộng danh mục lỗi nghiệp vụ (`enum SystemCode`, `apperror/`) | đã có code (library, không phải service) |
 | `gm-gateway/` | Ingress HTTP duy nhất: grpc-gateway fan-out xuống các domain service qua gRPC | đã có code |
 | `gm-product/` | Domain service đầu tiên, chỉ gRPC. **Bản tham chiếu** khi dựng domain service mới | đã có code |
 | `gm-order/`, `gm-payment/`, `gm-inventory/` | Domain service, chỉ gRPC | repo rỗng |
@@ -40,9 +40,11 @@ Hệ quả cho file `.proto`: annotation `google.api.http` chỉ có ý nghĩa v
 - Một thay đổi trong `gopkg` chỉ thấy được ở service sau khi chạy `go mod tidy && go mod vendor` trong service đó (`make mod`).
 - Các service vendor dependency (`vendor/` bị gitignore nhưng phải tồn tại thì mới build được).
 - Docker dev container phải bind-mount `../gopkg`; `gm-product/docker-compose.debug.yaml` mount nó tại `/gopkg` để replace `../gopkg` vẫn resolve được từ `/app`.
-- Trước khi thêm helper vào một service, đọc `gopkg/README.md` — logging, gRPC middleware, HTTP client có retry, RabbitMQ, Redis, Mongo, GORM, JWT, cursor pagination, copy struct và response envelope đều đã có sẵn ở đó. Code cross-cutting mới thuộc về `gopkg`, không thuộc về service.
+- Trước khi thêm helper vào một service, đọc `gopkg/README.md` — logging, gRPC middleware, HTTP client có retry, RabbitMQ, Redis, Mongo, GORM, JWT, cursor pagination, copy struct và kiểu lỗi trung lập (`responsehelper.Error`) đều đã có sẵn ở đó. Code cross-cutting mới thuộc về `gopkg`, không thuộc về service.
 
 **`gm-core` sở hữu mọi file `.proto` và mọi package Go sinh ra từ chúng.** Không service nào tự định nghĩa hay tự generate code protobuf. Cách dùng theo path giống hệt `gopkg`: `replace github.com/dangngochoainam/gm-core => ../gm-core`, và dev container bind-mount `../gm-core:/gm-core`.
+
+`gm-core` import `gopkg` (cho `apperror/`), không bao giờ ngược lại: `gopkg` là thư viện trung lập, không biết reason hay systemCode của hệ thống.
 
 Mỗi service một thư mục cho mỗi version, chia thành `dto` và `service`, và đường dẫn thư mục trùng với proto package:
 
