@@ -135,9 +135,10 @@ could plan from without going back to your human partner. Cover:
 - the parts of the how they decided, as they decided them
 - what's left to the builder
 
-**Where it goes:** `plans/<task-name>-design.md` at the workspace root,
+**Where it goes:** `plans/<task-name>/design.md` at the workspace root,
 where `<task-name>` follows the naming in `.claude/rules/worktrees.md`.
-The plan and the worktrees for this task reuse the same name.
+The plan, the test catalogs and the worktrees for this task reuse the same
+name and folder (see `.claude/rules/plans.md`).
 
 **Builder check:** dispatch a fresh subagent with
 `builder-check-prompt.md` in this directory. When you tell your human

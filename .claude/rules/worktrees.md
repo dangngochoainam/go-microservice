@@ -6,7 +6,7 @@ Không sửa file trong checkout gốc của repo con (`gopkg/`, `gm-*/`); hook 
 
 1. Chọn tên task theo thứ tự ưu tiên:
    - người dùng chỉ định tên → dùng tên đó;
-   - task có plan → tên file plan bỏ `.md` (`plans/gm-order-scaffold.md` → `gm-order-scaffold`);
+   - task có plan → tên thư mục chứa plan (`plans/gm-order-scaffold/plan.md` → `gm-order-scaffold`);
    - còn lại → tự đặt theo quy ước `<repo>-<chủ-đề>` của plan, rồi báo tên cho người dùng.
 2. Chạy `scripts/task-start.sh <tên-task> <repo>...` với các repo task sẽ sửa. Script:
    - luôn thêm `gopkg` và `gm-core` (replace `../gopkg`, `../gm-core` phải resolve được);
