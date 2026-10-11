@@ -13,7 +13,7 @@ Write implementation plans for an engineer who has not seen this codebase or thi
 
 **Context:** Implementation happens in `worktrees/<task-name>/<repo>/`, created at execution time by `scripts/task-start.sh` (see `.claude/rules/worktrees.md`). Write every file path with the repo as its first segment (`gm-product/internal/api/product.go`), never with the `worktrees/<task-name>/` prefix.
 
-**Save plans to:** `plans/<task-name>.md` at the workspace root, where `<task-name>` follows the naming in `.claude/rules/worktrees.md` and matches the design document `plans/<task-name>-design.md` when one exists.
+**Save plans to:** `plans/<task-name>/plan.md` at the workspace root, where `<task-name>` follows the naming in `.claude/rules/worktrees.md`; the design document, when one exists, is `plans/<task-name>/design.md` in the same folder.
 
 ## Scope Check
 
@@ -185,7 +185,7 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 After saving and self-reviewing the plan, link it for your human partner
 to read and wait for their review before implementation:
 
-**"Plan complete and saved to `plans/<task-name>.md`. Please review the plan. Does it capture what you want?"**
+**"Plan complete and saved to `plans/<task-name>/plan.md`. Please review the plan. Does it capture what you want?"**
 
 When they approve, set `Status: approved`, then invoke the writing-tests
 skill: it creates the worktrees for the plan's **Repos**, writes and locks
